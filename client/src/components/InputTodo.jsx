@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/jsx-fragments */
 import React, { Fragment, useState } from 'react';
 
