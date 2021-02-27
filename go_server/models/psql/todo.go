@@ -25,7 +25,7 @@ type TodoModel struct {
 
 // All grabs all todos from db
 func (m *TodoModel) All() ([]*models.Todo, error) {
-	stmt := `SELECT todo_id, description from todo`
+	stmt := `SELECT todo_id, description FROM todo`
 	rows, err := m.DB.Query(stmt)
 	if err != nil {
 		return nil, err
@@ -39,8 +39,8 @@ func (m *TodoModel) All() ([]*models.Todo, error) {
 		t := &models.Todo{}
 
 		err := rows.Scan(&t.TodoID, &t.Description)
-				if err != nil {
-			return nil, err
+			if err != nil {
+				return nil, err
 		}
 
 		todos = append(todos, t)
