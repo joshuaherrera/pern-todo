@@ -16,8 +16,8 @@ func (app *application) home(w http.ResponseWriter, r *http.Request)  {
 	data := struct{
 		Message string `json:"message"`
 	}{"hello world!"}
-	w.WriteHeader(http.StatusAccepted)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
 	json.NewEncoder(w).Encode(data)
 }
 
@@ -27,8 +27,7 @@ func (app *application) getTodos(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
-	app.infoLog.Println("**** queried postgres")
-	w.WriteHeader(http.StatusAccepted)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
 	json.NewEncoder(w).Encode(t)
 }

@@ -1,7 +1,6 @@
 package models
 
 import (
-	"database/sql"
 	"errors"
 )
 
@@ -10,6 +9,6 @@ var ErrNoRecords = errors.New("models: no matching records found")
 
 // Todo describes the todo record
 type Todo struct{
-	TodoID int
-	Description sql.NullString
+	TodoID int `json:"todo_id"`
+	Description string `json:"description"`
 }
