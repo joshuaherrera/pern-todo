@@ -40,3 +40,42 @@ func (m *TodoModel) All() ([]*models.Todo, error) {
 
 	return todos, nil
 }
+// Get gets one todo record from the DB
+func (m *TodoModel) Get(id int) (*models.Todo, error) {
+	stmt := `SELECT todo_id, description FROM todo WHERE todo_id = $1`
+
+	row := m.DB.QueryRow(stmt, id)
+
+	t := &models.Todo{}
+
+	err := row.Scan(&t.TodoID, &t.Description)
+
+	if err == sql.ErrNoRows {
+		return nil, models.ErrNoRecords
+	} else if err != nil {
+		return nil, err
+	}
+
+	return t, err
+}
+
+// Insert adds a todo record to the DB
+func (m *TodoModel) Insert(description string) (*models.Todo, error) {
+	stmt := `INSERT INTO todo (description) VALUES ($1) RETURNING *`
+
+	// use QueryRow since we are retuning, otherwise would use Exec
+	row := m.DB.QueryRow(stmt, description)
+
+	t := &models.Todo{}
+
+	err := row.Scan(&t.TodoID, &t.Description)
+
+	if err == sql.ErrNoRows {
+		return nil, models.ErrNoRecords
+	} else if err != nil {
+		return nil, err
+	}
+
+	return t, err
+
+}

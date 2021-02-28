@@ -16,7 +16,9 @@ func (app *application) routes() http.Handler {
 
 
 	router.HandleFunc("/", app.home)
-	router.HandleFunc("/todos", app.getTodos)
+	router.HandleFunc("/todos", app.getTodos).Methods(http.MethodGet)
+	router.HandleFunc("/todos", app.insertTodo).Methods(http.MethodPost)
+	router.HandleFunc(("/todos/{id:[0-9]+}"), app.getTodo).Methods(http.MethodGet)
 
 	return router
 }

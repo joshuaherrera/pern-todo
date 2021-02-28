@@ -19,14 +19,6 @@ type application struct {
 
 }
 
-const (
-  user = "postgres"
-  password = ""
-  host = "localhost"
-  port = 5432
-  database = "perntodo"
-)
-
 func main()  {
 	addr := flag.String("addr", ":5000", "HTTP Network Address")
 
