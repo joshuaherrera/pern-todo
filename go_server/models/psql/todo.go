@@ -56,7 +56,7 @@ func (m *TodoModel) Get(id int) (*models.Todo, error) {
 		return nil, err
 	}
 
-	return t, err
+	return t, nil
 }
 
 // Insert adds a todo record to the DB
@@ -76,6 +76,16 @@ func (m *TodoModel) Insert(description string) (*models.Todo, error) {
 		return nil, err
 	}
 
-	return t, err
+	return t, nil
+}
 
+// Update updates one todo record
+func (m *TodoModel) Update(id int, description string) (error) {
+	stmt := `UPDATE todo SET description = $1 WHERE todo_id = $2`
+
+	_, err := m.DB.Exec(stmt, description, id)
+	if err != nil {
+		return  err
+	}
+	return nil
 }
