@@ -89,3 +89,13 @@ func (m *TodoModel) Update(id int, description string) (error) {
 	}
 	return nil
 }
+
+// Delete removes a record from the todo table
+func (m *TodoModel) Delete(id int) (error) {
+	stmt := `DELETE FROM todo WHERE todo_id = $1`
+	_, err := m.DB.Exec(stmt, id)
+	if err != nil {
+		return  err
+	}
+	return nil
+}

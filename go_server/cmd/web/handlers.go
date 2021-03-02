@@ -9,6 +9,11 @@ import (
 	"github.com/joshuaherrera/pern-todo/go_server/go_server/models"
 )
 
+// Res is a struct for simple responses
+type Res struct {
+	Message string `json:"message"`
+}
+
 func (app *application) home(w http.ResponseWriter, r *http.Request)  {
 	if r.URL.Path != "/" {
 		app.notFound(w)
@@ -17,9 +22,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request)  {
 	// data := []byte(`{"mesage":"hello world!"}`)
 	// w.Write(data)
 
-	data := struct{
-		Message string `json:"message"`
-	}{"hello world!"}
+	data := Res{"hello world!"}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
 	json.NewEncoder(w).Encode(data)
@@ -98,9 +101,28 @@ func (app *application) updateTodo(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 
-	data := struct{
-		Message string `json:"message"`
-	}{"Todo was updated"}
+	data := Res{"Todo was updated"}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusAccepted)
+	json.NewEncoder(w).Encode(data)
+
+}
+
+func (app *application) deleteTodo(w http.ResponseWriter, r *http.Request)  {
+	vars := mux.Vars(r)
+	todoID, err := strconv.Atoi(vars["id"])
+	if err != nil || todoID < 1 {
+		app.notFound(w)
+		return
+	}
+
+	err = app.todos.Delete(todoID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	data := Res{"Todo was deleted"}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusAccepted)
 	json.NewEncoder(w).Encode(data)
